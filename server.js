@@ -10,6 +10,7 @@ const beauticianProfileRoute=require('./routes/beautificanProfileRoute')
 //middleware
 app.use(morgan('dev'))
 app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: true }))
 
 //routes
 app.use('/api',beauticianProfileRoute)

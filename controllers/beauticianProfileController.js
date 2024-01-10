@@ -1,25 +1,28 @@
 const B_Profile =require('../models/beauticianProfileModel')
 
 exports.postB_Profile=async(req,res)=>{
+    let contactInfo = {
+        email: req.body.email,
+        phoneNumber: req.body.phoneNumber
+      };
+    
+      let socialsData = {
+        socials_instragram: req.body.socials_instragram,
+        socials_facebook: req.body.socials_facebook,
+        socials_tiktok: req.body.socials_tiktok
+      };
     let b_profile = new B_Profile({
         beautician_name: req.body.beautician_name,
         beautician_bio: req.body.beautician_bio,
-        beautician_profilepic: req.body.beautician_profilepic,
+        beautician_profilepic: req.file.path,
         experience: req.body.experience,
         gallery: req.body.gallery,
         pricing: req.body.pricing,
         services_offered: req.body.services_offered,
         working_hours: req.body.working_hours,
         certifications: req.body.certifications,
-        contact_info: {
-            email: req.body.contact_info.email,
-            phoneNumber: req.body.contact_info.phoneNumber
-          },
-          socials: {
-            socials_instragram: req.body.socials.socials_instragram,
-            socials_facebook: req.body.socials.socials_facebook,
-            socials_tiktok: req.body.socials.socials_tiktok
-          }
+        contact_info: contactInfo,
+        socials: socialsData
         
     })
     b_profile = await b_profile.save()
@@ -51,7 +54,7 @@ exports.B_ProfileUpdate=async(req,res)=>{
         {
             beautician_name: req.body.beautician_name,
             beautician_bio: req.body.beautician_bio,
-            beautician_profilepic: req.body.beautician_profilepic,
+            beautician_profilepic: req.file.path,
             experience: req.body.experience,
             gallery: req.body.gallery,
             pricing: req.body.pricing,
