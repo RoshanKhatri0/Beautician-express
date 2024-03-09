@@ -22,7 +22,7 @@ exports.postB_Profile=async(req,res)=>{
         working_hours: req.body.working_hours,
         certifications: req.body.certifications,
         contact_info: contactInfo,
-        socials: socialsData
+        socials: socialsData,
         
     })
     b_profile = await b_profile.save()

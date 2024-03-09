@@ -65,6 +65,10 @@ const bProfileSchema = new mongoose.Schema({
         type:Number,
         default:0
     },
+    status:{
+        type:String,
+        default: 'Pending'
+    },
     contact_info:contactInfoSchema,
     socials:socialsSchema
 },{timestamps:true})

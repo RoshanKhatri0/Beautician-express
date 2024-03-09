@@ -27,7 +27,15 @@ const userSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
-    salt:String
+    salt:String,
+    notification:{
+        type:Array,
+        default:[]
+    },
+    seennotification:{
+        type:Array,
+        default:[]
+    }
 
 },{timestamps:true})
 
