@@ -45,7 +45,8 @@ const bProfileSchema = new mongoose.Schema({
         type:Number
     },
     gallery:{
-        type:String
+        type:Array,
+        default:[]
     },
     pricing:{
         type:String
