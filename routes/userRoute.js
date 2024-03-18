@@ -1,11 +1,11 @@
 const express = require('express')
-const { postUser, signIn, authController } = require('../controllers/userController')
+const { postUser, signIn, authController, getAllNotificationController } = require('../controllers/userController')
 const authMware = require('../middleware/authMware')
 const router = express.Router()
 
 router.post('/register',postUser)
 router.post('/login',signIn)
 router.post('/getUserData',authMware, authController)
-
+router.post('/get-all-notification',authMware, getAllNotificationController)
 
 module.exports=router

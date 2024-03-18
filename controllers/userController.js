@@ -2,7 +2,6 @@ const User = require('../models/userModel');
 const crypto = require('crypto');
 const Token = require('../models/tokenModel');
 const jwt = require('jsonwebtoken');
-const userModel = require('../models/userModel');
 
 exports.postUser = async (req, res) => {
     try {
@@ -57,7 +56,7 @@ exports.signIn = async(req,res)=>{
 
 exports.authController = async(req,res) =>{
     try{
-        const user = await userModel.findById({_id:req.body.userId})
+        const user = await User.findById({_id:req.body.userId})
         user.password = undefined
         user.hashed_passwordpassword = undefined
         user.salt = undefined
@@ -75,5 +74,24 @@ exports.authController = async(req,res) =>{
     catch(error){
         console.log(error)
         return res.status(500).json({message:'auth error',success:false,error})
+    }
+}
+exports.getAllNotificationController = async(req,res)=>{
+    try{
+        const user = await user.findOne({_id:req.body.userId})
+        const seennotification = user.seennotification
+        const notification = user.notification
+        seennotification.push(...notification)
+        user.notification = []
+        user.seennotification = notification
+        const updatedUser =await user.save()
+        res.status(200).json({success:true,message:'All notification marked as read',data:updatedUser})
+        
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({
+            message:'Error in notification', success:false, error
+        })
     }
 }
