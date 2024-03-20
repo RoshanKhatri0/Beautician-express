@@ -8,6 +8,8 @@ const cors = require('cors')
 
 const beauticianProfileRoute=require('./routes/beautificanProfileRoute')
 const userRoute=require('./routes/userRoute')
+const adminRoute=require('./routes/adminRoutes')
+
 
 //middleware
 app.use(morgan('dev'))
@@ -18,6 +20,8 @@ app.use(cors())
 //routes
 app.use('/api',beauticianProfileRoute)
 app.use('/api',userRoute)
+app.use('/api',adminRoute)
+
 
 
 const port=process.env.PORT || 5000

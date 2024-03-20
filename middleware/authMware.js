@@ -3,9 +3,13 @@ const JWT = require('jsonwebtoken')
 module.exports = async (req,res,next) =>{
     try{
     const token = req.headers['authorization'].split(" ")[1]
+    if (!token) {
+        return res.status(401).json({ message: 'Authorization token not provided', success: false });
+    }
     JWT.verify(token,process.env.JWT_SECRET,(err, decode) =>{
-        if(err){
-            return res.status(200).json({message: 'Auth Failedd',success:false})
+        if (err) {
+            console.error(err);
+            return res.status(401).json({ message: 'Authentication failed', success: false });
         }
         else{
             req.body.userId = decode.id
@@ -13,8 +17,8 @@ module.exports = async (req,res,next) =>{
         }
     })
     }
-    catch(error){
-        console.log(error)
-        res.status(401).json({message:'Auth Failed',success:false})
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error', success: false });
     }
 }

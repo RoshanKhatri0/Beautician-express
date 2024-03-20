@@ -76,22 +76,48 @@ exports.authController = async(req,res) =>{
         return res.status(500).json({message:'auth error',success:false,error})
     }
 }
-exports.getAllNotificationController = async(req,res)=>{
-    try{
-        const user = await user.findOne({_id:req.body.userId})
+
+exports.getAllNotificationController = async (req, res) => {
+    try {
+        const user = await User.findOne({ _id: req.body.userId })
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' })
+        }
+
         const seennotification = user.seennotification
-        const notification = user.notification
-        seennotification.push(...notification)
+        const notifications = user.notification
+
+        seennotification.push(...notifications)
         user.notification = []
-        user.seennotification = notification
-        const updatedUser =await user.save()
-        res.status(200).json({success:true,message:'All notification marked as read',data:updatedUser})
-        
+        user.seennotification = notifications
+
+        const updatedUser = await user.save()
+
+        res.status(200).json({
+            success: true,
+            message: 'All notifications marked as read',
+            data: updatedUser
+        })
+    } catch (error) {
+        console.error('Error in getAllNotificationController:', error)
+        res.status(500).json({
+            success: false,
+            message: 'Error in notification',
+            error: error.message 
+        })
+    }
+}
+
+exports.deleteAllNotification = async(req,res) =>{
+    try{
+        const user = await User.findOne({_id:req.body.userId})
+        user.seennotification = []
+        const updatedUser = await user.save()
+        updatedUser.password = undefined   
+        res.status(200).json({success:true, message:'Notification Deleted SuccessFfully', data: updatedUser})
     }
     catch(error){
         console.log(error)
-        res.status(500).json({
-            message:'Error in notification', success:false, error
-        })
+        res.status(500).json({success:false,message:'unable to delete all notification',error})
     }
 }
