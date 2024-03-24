@@ -14,6 +14,7 @@ exports.postB_Profile=async(req,res)=>{
             socials_tiktok: req.body.socials_tiktok
           };
         let b_profile = new B_Profile({
+            userId: req.body.userId,
             beautician_name: req.body.beautician_name,
             beautician_bio: req.body.beautician_bio,
             beautician_profilepic: req.file.path,

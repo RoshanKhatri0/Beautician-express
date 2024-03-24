@@ -27,6 +27,9 @@ const socialsSchema = new mongoose.Schema({
 })
 
 const bProfileSchema = new mongoose.Schema({
+    userId: {
+        type: String,
+      },
     beautician_name:{
         type:String,
         required:true,
