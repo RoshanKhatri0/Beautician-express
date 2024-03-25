@@ -63,11 +63,13 @@ exports.B_ProfileList=async(req,res)=>{
 }
 
 exports.B_ProfileDetail=async(req,res)=>{
-    const b_profile = await B_Profile.findById(req.params.id)
-    if (!b_profile){
-        return res.status(400).json({error:'Something went wrong'})
+    try {
+        const b_profile = await B_Profile.findOne({userId: req.body.userId})
+        res.status(200).json({success:true, message:'Beautician data fetch success', data: b_profile})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success:false, error, message:'Error in Fetching Beauticians Details'})
     }
-    res.send(b_profile)
 }
 
 exports.B_ProfileUpdate=async(req,res)=>{

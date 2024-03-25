@@ -6,7 +6,7 @@ const authMware = require('../middleware/authMware');
 
 router.post('/apply-beautician',upload.single('beautician_profilepic'), authMware , postB_Profile )
 router.get('/b_profilelist',B_ProfileList)
-router.get('/b_profiledetail/:id',B_ProfileDetail)
+router.post('/getBeauticianInfo', authMware ,B_ProfileDetail)
 router.put('/b_profileupdate/:id',upload.single('beautician_profilepic'),B_ProfileUpdate)
 router.delete('/b_profiledelete/:id',B_ProfileDelete)
 
