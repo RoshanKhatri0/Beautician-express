@@ -106,6 +106,16 @@ exports.B_ProfileUpdate=async(req,res)=>{
         res.status(500).json({success: false, message: 'Beautician Profile Update Issue', error})
     }
 }
+//get single beautician
+exports.getBeauticianById = async(req,res) => {
+    try {
+        const b_profile = await B_Profile.findOne({_id:req.body.beauticianId})
+        res.status(200).json({success:true, message:"Single Beautician Info Fetched", data: b_profile})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success:false, message:"Error in Single Beautician Info Fetching",error})
+    }
+}
 
 exports.B_ProfileDelete = (req,res)=>{
     B_Profile.findByIdAndDelete(req.params.id)
