@@ -11,7 +11,7 @@ router.post('/getBeauticianInfo', authMware ,B_ProfileDetail)
 //Update Beautician Profile
 router.post('/b_updateprofile/:id',upload.single('beautician_profilepic'), authMware ,B_ProfileUpdate)
 //List of Beautician
-router.get('/b_profilelist',B_ProfileList)
+router.get('/getAllBeautician',authMware, B_ProfileList)
 router.delete('/b_profiledelete/:id',B_ProfileDelete)
 
 

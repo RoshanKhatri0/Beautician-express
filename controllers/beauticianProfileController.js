@@ -55,11 +55,13 @@ exports.postB_Profile=async(req,res)=>{
 }
 
 exports.B_ProfileList=async(req,res)=>{
-    const b_profile = await B_Profile.find()
-    if (!b_profile){
-        return res.status(400).json({error:'Something went wrong'})
+    try {
+        const beauticians = await B_Profile.find({status: 'approved'})
+        res.status(201).json({success:true, message:"Beautician List Fetched Successfully", data: beauticians})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({error, success: false, message:'Error while getting Beauticians List'})
     }
-    res.send(b_profile)
 }
 
 exports.B_ProfileDetail=async(req,res)=>{
