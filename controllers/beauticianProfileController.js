@@ -1,5 +1,6 @@
 const B_Profile =require('../models/beauticianProfileModel');
 const userModel = require('../models/userModel');
+const Appointment = require('../models/appointmentModel');
 
 exports.postB_Profile=async(req,res)=>{
     try{
@@ -114,6 +115,40 @@ exports.getBeauticianById = async(req,res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({success:false, message:"Error in Single Beautician Info Fetching",error})
+    }
+}
+
+exports.beauticianAppointmentList = async(req,res) =>{
+    try {
+        const beautician = await B_Profile.findOne({userId:req.body.userId})
+        const appointments = await Appointment.find({beauticianId: beautician._id})
+        res.status(200).json({
+            success:true,
+            message:'Beautician Appointments Fetched Successfully',
+            data:appointments
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({error, success:false, message:"Error while fetching Beauticians Appointment List"})
+    }
+}
+
+exports.updateStatus = async(req,res)=>{
+    try {
+        const {appointmentId, status} = req.body
+        const appointments = await Appointment.findByIdAndUpdate(appointmentId,{status})
+        const user = await userModel.findOne({_id: appointments.userId})
+        const notification = user.notification
+        notification.push({
+            type:'Appointment Status Updated',
+            message:` Your appointment has been ${status}`,
+            onClickPath: '/beautician-appointments'
+        })
+        await user.save()
+        res.status(200).json({success:true, message:'Appointment Status Updated Successfully'})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({error, success:false, message:"Error in Udate Status"})
     }
 }
 
