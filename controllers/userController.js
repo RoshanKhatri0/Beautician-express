@@ -142,3 +142,13 @@ exports.bookAppointment = async(req,res) =>{
         res.status(500).json({error, success: false, message:"Error while booking appointment"})
     }
 }
+//appointment list
+exports.userAppointmentList = async(req,res) =>{
+    try {
+        const appointments = await Appointment.find({userId: req.body.userId})
+        res.status(200).json({success:true, message:'User Appointments fetched Successfully', data:appointments})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success:false, error, message:'Error in User Appointment List'})
+    }
+}
