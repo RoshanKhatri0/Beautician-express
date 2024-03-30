@@ -129,7 +129,7 @@ exports.bookAppointment = async(req,res) =>{
         req.body.status = 'pending'
         const newAppointment = new Appointment(req.body)
         await newAppointment.save()
-        const user = await User.findOne({_id: req.body.userId})
+        const user = await User.findOne({_id: req.body.beauticianInfo.userId})
         user.notification.push({
             type:'New-Appointment-Request',
             message:` A new appointment request from ${req.body.userInfo.name}`,
