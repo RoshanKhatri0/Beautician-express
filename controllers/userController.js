@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const Appointment = require('../models/appointmentModel');
 const crypto = require('crypto');
 const Token = require('../models/tokenModel');
 const jwt = require('jsonwebtoken');
@@ -119,5 +120,25 @@ exports.deleteAllNotification = async(req,res) =>{
     catch(error){
         console.log(error)
         res.status(500).json({success:false,message:'unable to delete all notification',error})
+    }
+}
+
+// Book appointment controller
+exports.bookAppointment = async(req,res) =>{
+    try {
+        req.body.status = 'pending'
+        const newAppointment = new Appointment(req.body)
+        await newAppointment.save()
+        const user = await User.findOne({_id: req.body.userId})
+        user.notification.push({
+            type:'New-Appointment-Request',
+            message:` A new appointment request from ${req.body.userInfo.name}`,
+            onClickPath: '/appointments'
+        })
+        await user.save()
+        res.status(200).json({success:true, message:'Appointment Booked Successfully'})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({error, success: false, message:"Error while booking appointment"})
     }
 }
