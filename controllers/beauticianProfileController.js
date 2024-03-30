@@ -142,7 +142,7 @@ exports.updateStatus = async(req,res)=>{
         notification.push({
             type:'Appointment Status Updated',
             message:` Your appointment has been ${status}`,
-            onClickPath: '/beautician-appointments'
+            onClickPath: '/appointments'
         })
         await user.save()
         res.status(200).json({success:true, message:'Appointment Status Updated Successfully'})
