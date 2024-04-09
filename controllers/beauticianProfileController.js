@@ -10,9 +10,9 @@ exports.postB_Profile=async(req,res)=>{
           };
         
           let socialsData = {
-            socials_instragram: req.body.socials_instragram,
-            socials_facebook: req.body.socials_facebook,
-            socials_tiktok: req.body.socials_tiktok
+            instragram: req.body.instragram,
+            facebook: req.body.facebook,
+            tiktok: req.body.tiktok
           };
         let b_profile = new B_Profile({
             userId: req.body.userId,
@@ -82,22 +82,21 @@ exports.B_ProfileUpdate=async(req,res)=>{
             {
                 beautician_name: req.body.beautician_name,
                 beautician_bio: req.body.beautician_bio,
-                beautician_profilepic: req.file.path,
                 experience: req.body.experience,
                 gallery: req.body.gallery,
                 pricing: req.body.pricing,
                 services_offered: req.body.services_offered,
                 working_hours: req.body.working_hours,
                 certifications: req.body.certifications,
-                // contact_info: {
-                //     email: req.body.contact_info.email,
-                //     phoneNumber: req.body.contact_info.phoneNumber
-                //   },
-                //   socials: {
-                //     socials_instragram: req.body.socials.socials_instragram,
-                //     socials_facebook: req.body.socials.socials_facebook,
-                //     socials_tiktok: req.body.socials.socials_tiktok
-                //   }
+                contact_info: {
+                    email: req.body.contact_info.email,
+                    phoneNumber: req.body.contact_info.phoneNumber
+                  },
+                  socials: {
+                    instragram: req.body.socials.instragram,
+                    facebook: req.body.socials.facebook,
+                    tiktok: req.body.socials.tiktok
+                  }
                 
             },{new:true}
         )
@@ -105,6 +104,20 @@ exports.B_ProfileUpdate=async(req,res)=>{
     } catch (error) {
         console.log(error)
         res.status(500).json({success: false, message: 'Beautician Profile Update Issue', error})
+    }
+}
+exports.B_ProfilePicUpdate=async(req,res)=>{
+    try {
+        const b_profile = await B_Profile.findOneAndUpdate(
+            {userId: req.params.id},
+            {
+                beautician_profilepic: req.file.path,
+            },{new:true}
+        )
+        res.status(201).json({success:true, message:'Beautician Profile Picture Updated',data: b_profile})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success: false, message: 'Beautician Profile Picture Update Issue', error})
     }
 }
 //get single beautician

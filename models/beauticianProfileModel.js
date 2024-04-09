@@ -12,15 +12,15 @@ const contactInfoSchema = new mongoose.Schema({
 })
 
 const socialsSchema = new mongoose.Schema({
-    socials_instragram:{
+    instragram:{
         type: String,
         trim: true
     },
-    socials_facebook:{
+    facebook:{
         type: String,
         trim: true
     },
-    socials_tiktok:{
+    tiktok:{
         type: String,
         trim: true
     }
@@ -45,7 +45,7 @@ const bProfileSchema = new mongoose.Schema({
         required:true,
     },
     experience:{
-        type:Number
+        type:String
     },
     gallery:{
         type:Array,
