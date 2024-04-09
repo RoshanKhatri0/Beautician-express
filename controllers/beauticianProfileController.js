@@ -4,16 +4,6 @@ const Appointment = require('../models/appointmentModel');
 
 exports.postB_Profile=async(req,res)=>{
     try{
-        let contactInfo = {
-            email: req.body.email,
-            phoneNumber: req.body.phoneNumber
-          };
-        
-          let socialsData = {
-            instragram: req.body.instragram,
-            facebook: req.body.facebook,
-            tiktok: req.body.tiktok
-          };
         let b_profile = new B_Profile({
             userId: req.body.userId,
             beautician_name: req.body.beautician_name,
@@ -25,8 +15,15 @@ exports.postB_Profile=async(req,res)=>{
             services_offered: req.body.services_offered,
             working_hours: req.body.working_hours,
             certifications: req.body.certifications,
-            contact_info: contactInfo,
-            socials: socialsData,
+            contact_info: {
+                email: req.body.contact_info.email,
+                phoneNumber: req.body.contact_info.phoneNumber
+              },
+              socials: {
+                instragram: req.body.socials.instragram,
+                facebook: req.body.socials.facebook,
+                tiktok: req.body.socials.tiktok
+              }
             
         })
         await b_profile.save()
